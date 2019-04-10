@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <h1>
+      My Todos
+      <span class="info">({{ remaining.length }}/{{ todos.length }})</span>
+    </h1>
     <ul>
       <ToDoItem v-for="todo in todos" :todo="todo" @delete="deleteTodo" />
     </ul>
@@ -36,6 +40,13 @@ export default {
     deleteTodo: function(todo) {
       this.todos = this.todos.filter(item => item !== todo);
     },
+  },
+  computed: {
+    remaining: function() {
+      return this.todos.filter(function(todo) {
+        return !todo.isDone;
+      });
+    }
   }
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <li>
+    <input type="checkbox" v-model="todo.isDone">
     <span>{{ todo.text }}</span>
     <span @click="deleteItem(todo)">[x]</span>
   </li>

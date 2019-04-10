@@ -11,7 +11,20 @@
     <noscript>
       <strong>We're sorry but todoapp doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <template>
+      <div id="app">
+        <ul>
+          <li v-for="todo in todos">
+            <span>{{ todo.text }}</span>
+            <span @click="deleteTodo(todo)">[x]</span>
+          </li>
+        </ul>
+        <form @submit.prevent="addTodo">
+          <input type="text" v-model="newTodo">
+          <input type="submit" value="Add">
+        </form>
+      </div>
+    </template>
+      <!-- built files will be auto injected -->
   </body>
 </html>

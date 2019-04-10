@@ -1,0 +1,22 @@
+{
+  "name": "helloWebpack",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "hirock17l@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "css-loader": "^2.1.1",
+    "mini-css-extract-plugin": "^0.5.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.3.1"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack-dev-server --open --inline --hot",
+    "watch": "webpack --watch --config webpack.config.js"
+  }
+}

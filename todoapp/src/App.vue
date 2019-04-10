@@ -5,6 +5,10 @@
         <span>{{ todo.text }}</span>
       </li>
     </ul>
+    <form @submit.prevent="addTodo">
+      <input type="text" v-model="newTodo">
+      <input type="submit" value="Add">
+    </form>
   </div>
 </template>
 

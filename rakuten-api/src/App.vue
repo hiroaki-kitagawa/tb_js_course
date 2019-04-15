@@ -40,14 +40,14 @@ export default {
   methods: function() {
     const axios = require('axios');
 
-    axios.get('https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?format=json&applicationId=1045443135407692478',{
+    axios.get('https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?',{
       params: {
         format: json,
         ID: 1045443135407692478
       }
     })
       .then(function (res) {
-        
+
       })
       .catch(function (err) {
         // エラー

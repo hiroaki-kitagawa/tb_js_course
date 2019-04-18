@@ -16,47 +16,76 @@
           </el-col>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">Submit</el-button>
+          <el-button type="primary" v-on:click="googleMap">Submit</el-button>
           <el-button>Cancel</el-button>
         </el-form-item>
       </el-form>
     </form>
 
+    <!-- 緯度•経度の確認用 -->
+    <p>緯度: {{searchFormData.lat}}</p>
+    <p>経度: {{searchFormData.lng}}</p>
+
   </div>
 </template>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=process.env.VUE_APP_GOOGLE_MAP_API_KEY&callback=initMap" async defer></script>
 <script>
-export default {
-  name: 'app',
-  data() {
-    return {
-      searchFormData: {
-        placeName: '',
-        checkInDate: '',
-        checkOutDate: ''
+  export default {
+    name: 'app',
+    mounted() {
+          this.geocoder = new google.maps.Geocoder();
+        },
+    data() {
+      return {
+        geocoder: {},
+        searchFormData: {
+          placeName: '',
+          checkInDate: '',
+          checkOutDate: '',
+        },
+        results: null,
+        keyword: '',
+        params: {
+          format: 'json',
+          checkinDate: searchFormData.checkInDate,
+          checkoutDate: searchFormData.checkOutDate,
+          latitude: searchFormData.lat,
+          longitude: searchFormData.lng,
+          applicationId: 1045443135407692478
+        }
       }
-    }
-  },
-  methods: function() {
-    const axios = require('axios');
+    },
+    methods: {
+      mapSearch() {
+        geocoder.geocode({ address: searchFormData.placeName }, function (results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            console.log(results[0].geometry.location);
 
-    axios.get('https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?',{
-      params: {
-        format: json,
-        ID: 1045443135407692478
+            this.lat = results[0].geometry.location.lat();
+            this.lng = results[0].geometry.location.lng();
+
+
+          } else {
+            alert('住所が正しくないか存在しません');
+            target.style.display = 'none';
+          }
+        });
+      },
+      rakuten: function() {
+        var self = this;
+        axios.get('https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426', {params: this.params})
+          .then(function (res) {
+            self.results = res.data.items;
+          })
+          .catch(function (err) {
+            // エラー
+            console.log(err);
+          })
       }
-    })
-      .then(function (res) {
-
-      })
-      .catch(function (err) {
-        // エラー
-        console.log(err);
-      })
   }
 }
-
-
+// googleMap()
+// rakuten()
 </script>
 
 <style>

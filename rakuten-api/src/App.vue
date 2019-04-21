@@ -51,7 +51,15 @@
           address: '',
           lat: '',
           lng: ''
-        }
+        },
+        // params: {
+        //   format: 'json',
+        //   checkinDate: searchFormData.checkInDate,
+        //   checkoutDate: searchFormData.checkOutDate,
+        //   latitude: searchFormData.lat,
+        //   longitude: searchFormData.lng,
+        //   applicationId: 1045443135407692478
+        // }
       }
     },
     methods: {
@@ -74,9 +82,20 @@
               target.style.display = 'none';
             }
 
-        });
+          });
+        },
+        // rakuten: function () {
+        // var self = this;
+        // axios.get('https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426', { params: this.params })
+        //   .then(function (res) {
+        //     self.results = res.data.items;
+        //   })
+        //   .catch(function (err) {
+        //     // エラー
+        //     console.log(err);
+        //   })
+        // }
       }
-    }
   }
 
 </script>

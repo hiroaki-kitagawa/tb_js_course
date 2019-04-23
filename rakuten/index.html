@@ -35,12 +35,21 @@
       <p>チェックアウト: {{ searchFormData.checkOutDate }}</p>
       <p>緯度: {{ lat }}</p>
       <p>経度: {{ lng }}</p>
-      <div id="map" style="width: 600px; height: 500px;"></div>
+      <div>
+        <ul>
+          <li v-for="result in results">
+            ホテル名:{{ result.hotelBasicInfo.hotelName}}
+          </li>
+
+        </ul>
+
+      </div>
+      <div id="map"></div>
     </div>
   </div>
 </body>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRZ0oSbzvobORd5Hd5WZp-ba5bqXRnSc8"></script>
+<script src="addgmap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 <script defer src="https://unpkg.com/element-ui/lib/index.js"></script>

@@ -1,4 +1,4 @@
-new Vue({
+const vm = new Vue({
   el: "#app",
   data() {
     return {
@@ -9,14 +9,27 @@ new Vue({
       },
       results: null,
       lat: '',
-      lng: ''
+      lng: '',
+      apikey: 'https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?',
+      format: 'JSON',
+      datumType: 1,
+      searchRadius: 1,
+      applicationId: '1023196580476476311'
     }
   },
   methods: {
-    search() {
-      var address = this.searchFormData.placeName; //住所を指定
-      // var address = "東京都新宿区西新宿2-8-1";//住所を指定
-      // var target = document.getElementById('map');
+    search: function () {
+
+      var address = this.searchFormData.placeName;
+      const apikey = this.apikey;
+      const format = this.format;
+      const datumType = this.datumType;
+      const searchRadius = this.searchRadius;
+      const applicationId = this.applicationId;
+      var checkInDate = this.searchFormData.checkInDate.getFullYear() + '-' + (this.searchFormData.checkInDate.getMonth() + 1) + '-' + this.searchFormData.checkInDate.getDate();
+      var checkOutDate = this.searchFormData.checkOutDate.getFullYear() + '-' + (this.searchFormData.checkOutDate.getMonth() + 1) + '-' + this.searchFormData.checkOutDate.getDate();
+
+
       var map = new google.maps.Map(document.getElementById('map'));
       var geocoder = new google.maps.Geocoder();
 
@@ -24,37 +37,25 @@ new Vue({
         if (status === 'OK' && results[0]) {
           this.lat = results[0].geometry.location.lat();
           this.lng = results[0].geometry.location.lng();
-          console.log(this.checkinDate);
-          console.log(this.searchFormData.checkoutDate);
-          // console.log(this.lat);
-          // console.log(this.lng);
-          // rakuten(this.lat, this.lng);
+
+          var url = apikey + 'format=' + format + '&checkinDate=' + checkInDate + '&checkoutDate=' + checkOutDate + '&latitude=' + this.lat + '&longitude=' + this.lng + '&datumType=' + datumType + '&searchRadius=' + searchRadius + '&applicationId=' + applicationId;
+          console.log(url);
+
+          axios.
+            get(url)
+            .then(function (res) {
+              this.results = res.data;
+              console.log(res.data);
+            })
+            .catch(function (err) {
+              // エラー
+              console.log(err);
+            })
         } else {
           alert('住所が正しくないか存在しません。');
         }
       });
 
-      axios.get('https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?', {
-        params: {
-          applicationId: 1023196580476476311,
-          format: 'JSON',
-          checkinDate: this.searchFormData.checkInDate,
-          checkoutDate: this.searchFormData.checkoutDate,
-          latitude: this.lat,
-          longitude: this.lng,
-          searchRadius: 1
-        }
-      })
-        .then(function (res) {
-          console.log(res);
-        })
-        .catch(function (err) {
-          // エラー
-          console.log(err);
-        })
-
-
-
-    },
+    }
   }
 })

@@ -28,15 +28,13 @@
     <p>住所: {{ searchFormData.placeName }}</p>
     <p>チェックイン: {{ searchFormData.checkInDate }}</p>
     <p>チェックアウト: {{ searchFormData.checkOutDate }}</p>
-    <!-- <p>{{ apikey }}</p> -->
-    <p id="lat">緯度: {{ lat }}</p>
-    <p id="lng">経度: {{ lng }}</p>
 
   </div>
 
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
     name: 'app',
     data() {
@@ -48,17 +46,15 @@
         },
         results: null,
         map: null,
-        mapPosition: { lat: 35.658034, lng: 139.701636 },
         geocoder: {},
         lat: '',
         lng: '',
-        params: {
-          applicationId: '1023196580476476311',
-          format: 'JSON',
-          latitude: this.lat,
-          longitude: this.lng,
-          searchRadius: '1'
-        }
+        apikey: 'https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?',
+        format: 'JSON',
+        datumType: 1,
+        searchRadius: 1,
+        applicationId: '1023196580476476311',
+        vacantHotelData: []
       }
     },
     methods: {
@@ -69,25 +65,28 @@
           if (status === 'OK' && results[0]) {
             this.lat = results[0].geometry.location.lat();
             this.lng = results[0].geometry.location.lng();
+
+            var url = this.apikey + 'format=' + this.format + '&checkinDate=' + this.checkInDate + '&checkoutDate=' + this.checkOutDate + '&latitude=' + this.lat + '&longitude=' + this.lng + '&datumType=' + this.datumType + '&searchRadius=' + this.searchRadius + '&applicationId=' + this.applicationId;
+
+
+            axios.
+              get(url)
+              .then(res => {
+                this.vacantHotelData = res.data.hotels;
+                // eslint-disable-next-line
+                console.log(this.vacantHotelData);
+              })
+              .catch(err => {
+                // エラー
+                // eslint-disable-next-line
+                console.log(err);
+              })
           } else {
             //住所が存在しない場合の処理
             alert('住所が正しくないか存在しません。');
           }
         })
-      },
-      // rakuten: function () {
-      //   axios.get('https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?', { params: this.params })
-      //     .then(function (res) {
-      //       // 処理
-      //       console.log(res);
-      //     })
-      //     .catch(function (err) {
-      //       // エラー
-      //       console.log(err);
-      //     })
-      // }
+      }
     }
   }
-
-
 </script>

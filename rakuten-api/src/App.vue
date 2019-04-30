@@ -3,32 +3,33 @@
     <div id="content">
       <form style="width: 460px;">
         <el-form ref="searchFormData" :model="searchFormData" label-width="120px">
-          <el-form-item label="Activity place">
+          <el-form-item label="場所">
             <el-input v-model="searchFormData.placeName"></el-input>
           </el-form-item>
-          <el-form-item label="Activity time">
+          <el-form-item label="チェックイン">
             <el-col :span="11">
               <el-date-picker type="date" placeholder="Pick a date" v-model="searchFormData.checkInDate" style="width: 100%;"></el-date-picker>
             </el-col>
-            <el-col class="line" :span="2">-</el-col>
+          </el-form-item>
+          <el-form-item label="チェックアウト">
             <el-col :span="11">
               <el-date-picker type="date" placeholder="Pick a date" v-model="searchFormData.checkOutDate" style="width: 100%;"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" v-on:click="search">Submit</el-button>
-            <el-button>Cancel</el-button>
+            <el-button type="primary" v-on:click="search">検索</el-button>
+            <el-button>取消</el-button>
           </el-form-item>
+          <!-- <el-form-item>
+            <el-button type="primary"><router-link to="home">詳細を見る</router-link></el-button>
+          </el-form-item> -->
+
         </el-form>
       </form>
     </div>
 
     <div id="map"></div>
-    <!-- 確認用 -->
-    <p>住所: {{ searchFormData.placeName }}</p>
-    <p>チェックイン: {{ searchFormData.checkInDate }}</p>
-    <p>チェックアウト: {{ searchFormData.checkOutDate }}</p>
-    <p>hotel:{{ vacantHotelData }}</p>
+    <HotelList :vacantHotelData="vacantHotelData"></HotelList>
 
   </div>
 
@@ -37,8 +38,10 @@
 <script>
   import axios from 'axios'
   import GoogleMapsApiLoader from 'google-maps-api-loader'
+  import HotelList from './components/HotelList.vue'
   export default {
     name: 'app',
+    components: { HotelList },
     async mounted() {
           const gmapapi = await GoogleMapsApiLoader({
             apiKey: process.env.VUE_APP_GOOGLE_MAP_API_KEY
@@ -85,7 +88,6 @@
 
             var url = self.rakuten_apikey + 'format=' + self.params.format + '&checkinDate=' + self.params.checkInDate + '&checkoutDate=' + self.params.checkOutDate + '&latitude=' + this.lat + '&longitude=' + this.lng + '&datumType=' + self.params.datumType + '&searchRadius=' + self.params.searchRadius + '&applicationId=' + self.params.applicationId;
 
-            console.log(url);
             axios.
               get(url)
               .then(function(res) {

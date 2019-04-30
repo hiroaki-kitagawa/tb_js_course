@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import router from './routes.js';
+import router from './routes';
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import Top from './Top.vue'

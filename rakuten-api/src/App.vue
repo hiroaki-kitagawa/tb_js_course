@@ -20,9 +20,6 @@
             <el-button type="primary" v-on:click="search">検索</el-button>
             <el-button>取消</el-button>
           </el-form-item>
-          <!-- <el-form-item>
-            <el-button type="primary"><router-link to="home">詳細を見る</router-link></el-button>
-          </el-form-item> -->
 
         </el-form>
       </form>

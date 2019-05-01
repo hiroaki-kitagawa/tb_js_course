@@ -2,7 +2,7 @@
 <el-card class="box-card">
   <div slot="header" class="clearfix">
     <span>検索結果</span>
-    <el-button style="float: right; padding: 3px 0" type="text">Operation button</el-button>
+    <!-- <el-button style="float: right; padding: 3px 0" type="text">Operation button</el-button> -->
   </div>
   <el-row>
     <div v-for="(hotel,index) in vacantHotelData" v-bind:key="index" style="margin:10px 0px;">
